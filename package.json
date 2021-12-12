@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "main": "./public/main.js",
-  "homepage":".",
+  "homepage": ".",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.0",
     "@testing-library/react": "^11.2.7",
@@ -20,7 +20,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "nwjs-dev": "concurrently \"set BROWSER=none&&npm start\" \"wait-on http://localhost:3000 &&set NWJS_START_URL=http://localhost:3000&&nw .\" "
+    "nwjs-dev-win": "concurrently \"set BROWSER=none&&npm start\" \"wait-on http://localhost:3000 &&set NWJS_START_URL=http://localhost:3000&&nw .\" ", 
+    "nwjs-dev-lin": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && NWJS_START_URL=http://localhost:3000 nw .\" "
   },
   "eslintConfig": {
     "extends": [
