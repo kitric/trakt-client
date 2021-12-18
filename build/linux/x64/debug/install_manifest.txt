@@ -1,0 +1,10 @@
+/home/nordic7/Documents/projects/programming/flutter/trakt_client/build/linux/x64/debug/bundle/trakt_client
+/home/nordic7/Documents/projects/programming/flutter/trakt_client/build/linux/x64/debug/bundle/data/icudtl.dat
+/home/nordic7/Documents/projects/programming/flutter/trakt_client/build/linux/x64/debug/bundle/lib/libflutter_linux_gtk.so
+/home/nordic7/Documents/projects/programming/flutter/trakt_client/build/linux/x64/debug/bundle/data/flutter_assets/kernel_blob.bin
+/home/nordic7/Documents/projects/programming/flutter/trakt_client/build/linux/x64/debug/bundle/data/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf
+/home/nordic7/Documents/projects/programming/flutter/trakt_client/build/linux/x64/debug/bundle/data/flutter_assets/FontManifest.json
+/home/nordic7/Documents/projects/programming/flutter/trakt_client/build/linux/x64/debug/bundle/data/flutter_assets/AssetManifest.json
+/home/nordic7/Documents/projects/programming/flutter/trakt_client/build/linux/x64/debug/bundle/data/flutter_assets/NOTICES.Z
+/home/nordic7/Documents/projects/programming/flutter/trakt_client/build/linux/x64/debug/bundle/data/flutter_assets/version.json
+/home/nordic7/Documents/projects/programming/flutter/trakt_client/build/linux/x64/debug/bundle/data/flutter_assets/fonts/MaterialIcons-Regular.otf
