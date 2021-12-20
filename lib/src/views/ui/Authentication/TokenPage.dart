@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:trakt_client/src/business_logic/models/api_services/trakt_api.dart'
     as api_trakt;
 
-import 'package:trakt_client/src/business_logic/utils/secrets.dart' as sec;
+import 'package:trakt_client/src/business_logic/models/utils.dart' as utils;
 
 class TokenPage extends StatefulWidget {
   const TokenPage({Key? key, required this.title}) : super(key: key);
@@ -89,6 +89,14 @@ class _TokenPageState extends State<TokenPage> {
     );
   }
 
-  void handleClick() => api_trakt.retrieveToken(
-      sec.clientID, sec.clientSecret, pinController.text);
+  void handleClick() async {
+    final clientID = utils.RetrieveFromINI("CLIENT_ID");
+    final clientSecret = utils.RetrieveFromINI("CLIENT_SECRET");
+
+    String token = await api_trakt.retrieveToken(
+        clientID, clientSecret, pinController.text);
+
+    // Figure out what to do with the token.
+    utils.WriteToINI("ACCESS_TOKEN", token);
+  }
 }

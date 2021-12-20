@@ -35,7 +35,6 @@ Future<String> retrieveToken(
   try {
     HttpClientRequest request = await client.postUrl(Uri.parse(url));
     request.headers.add('Content-Type', 'application/json');
-
     HttpClientResponse response = await request.close();
 
     // Converts the response into a json object that can be used to retrieve access_token.
