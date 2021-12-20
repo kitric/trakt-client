@@ -1,0 +1,3 @@
+/* 
+This file will hold some methods useful for encryption purposes.
+*/

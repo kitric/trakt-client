@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:trakt_client/src/views/ui/Authentication/AuthPage.dart';
+import 'package:trakt_client/src/business_logic/models/utils.dart' as utils;
+import 'package:trakt_client/src/views/ui/main/HomePage.dart';
 
 class TraktClient extends StatelessWidget {
   const TraktClient({Key? key}) : super(key: key);
@@ -7,6 +9,11 @@ class TraktClient extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    // If ACCESS_TOKEN exists, then there's no need to authenticate.
+    Widget? page = utils.RetrieveFromINI("ACCESS_TOKEN") == ""
+        ? const AuthPage(title: 'Trakt Client - Authentication')
+        : const HomePage(title: 'Trakt Client - Home Page');
+
     return MaterialApp(
       title: 'Trakt Client - Authentication',
       theme: ThemeData(
@@ -27,7 +34,7 @@ class TraktClient extends StatelessWidget {
         this page after the user has already completed the authentication
         process.
       */
-      home: const AuthPage(title: 'Trakt Client - Authentication'),
+      home: page,
     );
   }
 }

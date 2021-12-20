@@ -1,14 +1,9 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-import 'TokenPage.dart';
-import 'package:trakt_client/src/business_logic/models/api_services/trakt_api.dart'
-    as api_trakt;
 
-import 'package:trakt_client/src/business_logic/models/utils.dart' as utils;
-
-class AuthPage extends StatefulWidget {
-  const AuthPage({Key? key, required this.title}) : super(key: key);
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key, required this.title}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -22,10 +17,10 @@ class AuthPage extends StatefulWidget {
   final String title;
 
   @override
-  State<AuthPage> createState() => _AuthPageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _AuthPageState extends State<AuthPage> {
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -54,48 +49,17 @@ class _AuthPageState extends State<AuthPage> {
           // axis because Columns are vertical (the cross axis would be
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              "YOU'RE NOT AUTHENTICATED!",
+          children: const <Widget>[
+            Text(
+              "HOME PAGE!",
               style: TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
                   fontFamily: "Iosevka"),
             ),
-            Container(
-                // Put a widget inside a container to set margin.
-                margin: const EdgeInsets.only(top: 15),
-                padding: const EdgeInsets.only(
-                  left: 50,
-                  right: 50,
-                ),
-                child: Column(
-                  children: <Widget>[
-                    /*TextField(
-                      decoration: const InputDecoration(
-                        labelText: "Client ID",
-                      ),
-                      maxLines: 1,
-                      controller: controller,
-                    ),*/
-                    OutlinedButton(
-                        onPressed: handleClick,
-                        child: const Text("Authenticate")),
-                  ],
-                )),
           ],
         ),
       ),
     );
-  }
-
-  void handleClick() {
-    api_trakt.redirect_user(utils.RetrieveFromINI("CLIENT_ID"));
-
-    // Opens TokenPage.dart.
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => const TokenPage(title: "TokenPage bruv")));
   }
 }
