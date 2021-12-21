@@ -49,33 +49,14 @@ class _HomePageState extends State<HomePage> {
           // axis because Columns are vertical (the cross axis would be
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
+          children: const <Widget>[
+            Text(
               "HOME PAGE!",
               style: TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
-                  fontFamily: "Iosevka"),
+                  fontFamily: "Century Gothic"),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Image(
-                  image: Image.network(
-                          "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.ytimg.com%2Fvi%2FwzY6p-TMWy8%2Fmaxresdefault.jpg&f=1&nofb=1")
-                      .image,
-                  width: 512,
-                  height: 512,
-                ),
-                Image(
-                  image: Image.network(
-                          "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.fqBDNzQGguM2uwvxkPcd2QHaDt%26pid%3DApi&f=1")
-                      .image,
-                  width: 512,
-                  height: 512,
-                ),
-              ],
-            )
           ],
         ),
       ),
