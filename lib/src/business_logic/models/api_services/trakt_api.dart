@@ -1,11 +1,12 @@
 // ignore_for_file: non_constant_identifier_names
 
 /* 
-Probably will end up renaming this file later.
+This file contains useful methods that interact with the trakt api.
 */
 
 // HTTP requests.
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:io';
 
