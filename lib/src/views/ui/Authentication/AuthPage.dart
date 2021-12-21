@@ -96,6 +96,7 @@ class _AuthPageState extends State<AuthPage> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => const TokenPage(title: "TokenPage bruv")));
+            builder: (context) =>
+                const TokenPage(title: "Trakt Client - Token Page")));
   }
 }
