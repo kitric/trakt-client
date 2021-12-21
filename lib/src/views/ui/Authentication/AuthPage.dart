@@ -55,34 +55,40 @@ class _AuthPageState extends State<AuthPage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Container(
+              margin: const EdgeInsets.only(top: 15, bottom: 15),
+              padding: const EdgeInsets.only(
+                left: 50,
+                right: 50,
+              ),
+              child: Column(
+                children: <Widget>[
+                  Image(
+                    image: Image.network(
+                            "https://trakt.tv/assets/logos/header@2x-d6926a2c93734bee72c5813819668ad494dbbda651457cd17d15d267bc75c657.png")
+                        .image,
+                    width: 100,
+                    height: 100,
+                  ),
+                ],
+              ),
+            ),
             const Text(
-              "YOU'RE NOT AUTHENTICATED!",
+              "Login with Trakt",
               style: TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
-                  fontFamily: "Iosevka"),
+                  fontFamily: "Century Gothic"),
             ),
-            Container(
-                // Put a widget inside a container to set margin.
-                margin: const EdgeInsets.only(top: 15),
-                padding: const EdgeInsets.only(
-                  left: 50,
-                  right: 50,
-                ),
-                child: Column(
-                  children: <Widget>[
-                    /*TextField(
-                      decoration: const InputDecoration(
-                        labelText: "Client ID",
-                      ),
-                      maxLines: 1,
-                      controller: controller,
-                    ),*/
-                    OutlinedButton(
-                        onPressed: handleClick,
-                        child: const Text("Authenticate")),
-                  ],
-                )),
+            Padding(
+                padding: const EdgeInsets.all(15),
+                child: OutlinedButton(
+                    onPressed: handleClick,
+                    child: const Text("Authenticate"),
+                    style: OutlinedButton.styleFrom(
+                      primary: const Color.fromARGB(255, 255, 255, 255),
+                      backgroundColor: const Color.fromARGB(255, 237, 28, 36),
+                    ))),
           ],
         ),
       ),
