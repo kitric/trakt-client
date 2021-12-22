@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:trakt_client/src/views/ui/Authentication/AuthPage.dart';
 import 'package:trakt_client/src/business_logic/models/utils.dart' as utils;
 import 'package:trakt_client/src/views/ui/main/HomePage.dart';
+import 'package:trakt_client/src/business_logic/models/api_services/trakt_api.dart'
+    as api_trakt;
 
 class TraktClient extends StatelessWidget {
   const TraktClient({Key? key}) : super(key: key);
@@ -9,10 +11,8 @@ class TraktClient extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    // If ACCESS_TOKEN exists, then there's no need to authenticate.
-    Widget? page = utils.RetrieveFromINI("ACCESS_TOKEN") == ""
-        ? const AuthPage(title: 'Trakt Client - Authentication')
-        : const HomePage(title: 'Trakt Client - Home Page');
+    // If ACCESS_TOKEN exists, then there's no need to authenticate; there's only need to refresh the token.
+    Widget? page = AuthIfNeeded();
 
     return MaterialApp(
       title: 'Trakt Client - Authentication',
@@ -37,4 +37,32 @@ class TraktClient extends StatelessWidget {
       home: page,
     );
   }
+}
+
+Widget? AuthIfNeeded() {
+  Widget? page;
+
+  if (utils.RetrieveFromINI("ACCESS_TOKEN") == "") {
+    page = const AuthPage(title: "Trakt Client - Authentication");
+  } else {
+    // Also refreshes token.
+    page = const HomePage(title: "Trakt Client - Home Page");
+
+    print("Old access_token: ${utils.RetrieveFromINI('ACCESS_TOKEN')}");
+
+    // Not sure if this works LMAO
+    api_trakt
+        .refreshToken(
+            utils.RetrieveFromINI("CLIENT_ID"),
+            utils.RetrieveFromINI("CLIENT_SECRET"),
+            utils.RetrieveFromINI("REFRESH_TOKEN"))
+        .then((value) => {
+              utils.WriteToINI("ACCESS_TOKEN", value['access_token']),
+              utils.WriteToINI("REFRESH_TOKEN", value['refresh_token'])
+            });
+
+    print("New access_token: ${utils.RetrieveFromINI('ACCESS_TOKEN')}");
+  }
+
+  return page;
 }

@@ -6,13 +6,12 @@ This file contains useful methods that interact with the trakt api.
 
 // HTTP requests.
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:io';
 
-/* Redirects the user to the authentication page.
- The user must, then, login to their account and proceed with
- the authentication process.*/
+/// Redirects the user to the authentication page.
+/// The user must, then, login to their account and proceed with
+/// the authentication process.
 void redirect_user(String clientID) async {
   final url =
       "https://api.trakt.tv/oauth/authorize?response_type=code&client_id=$clientID&redirect_uri=urn:ietf:wg:oauth:2.0:oob&state=%20";
@@ -22,16 +21,18 @@ void redirect_user(String clientID) async {
   }
 }
 
-/* 
-Retrieves access_token and refresh_token from the respective trakt api endpoint.
-*/
-Future<String> retrieveToken(
-    String clientID, String clientSecret, String pin) async {
-  final url =
-      "https://api.trakt.tv/oauth/token?code=$pin&client_id=$clientID&client_secret=$clientSecret&redirect_uri=urn:ietf:wg:oauth:2.0:oob&grant_type=authorization_code";
+///
+/// Retrieves access_token and refresh_token from the respective trakt api endpoint.
+/// grant_type can either be authorization_code or refresh_token
+///
+Future<dynamic> retrieveToken(
+    String clientID, String clientSecret, String pin, String grant_type,
+    [String refreshToken = ""]) async {
+  var url =
+      "https://api.trakt.tv/oauth/token?code=$pin&client_id=$clientID&client_secret=$clientSecret&redirect_uri=urn:ietf:wg:oauth:2.0:oob&grant_type=$grant_type";
 
   var client = HttpClient();
-  String access_token = "";
+  dynamic r_json;
 
   try {
     HttpClientRequest request = await client.postUrl(Uri.parse(url));
@@ -39,23 +40,25 @@ Future<String> retrieveToken(
     HttpClientResponse response = await request.close();
 
     // Converts the response into a json object that can be used to retrieve access_token.
-    final r_json = json.decode((await response.transform(utf8.decoder).join()));
-    access_token = r_json['access_token'];
+    r_json = json.decode((await response.transform(utf8.decoder).join()));
   } finally {
     client.close();
   }
 
   // lol will refactor this later.
-  return access_token;
+  return r_json;
 }
 
-Future<String> refreshToken(String accessToken, String clientID,
-    String clientSecret, String refreshToken) async {
+///
+/// Returns a new access token and refresh token, calling the respective api endpoint using refresh_token.
+///
+Future<dynamic> refreshToken(
+    String clientID, String clientSecret, String refreshToken) async {
   final url =
       "https://api.trakt.tv/oauth/token?grant_type=refresh_token&client_id=$clientID&refresh_token=$refreshToken&client_secret=$clientSecret&redirect_uri=urn:ietf:wg:oauth:2.0:oob";
 
   var client = HttpClient();
-  String newToken = "";
+  dynamic r_json = "";
 
   try {
     HttpClientRequest request = await client.postUrl(Uri.parse(url));
@@ -63,11 +66,10 @@ Future<String> refreshToken(String accessToken, String clientID,
     HttpClientResponse response = await request.close();
 
     // Converts the response into a json object that can be used to retrieve access_token.
-    final r_json = json.decode((await response.transform(utf8.decoder).join()));
-    newToken = r_json['access_token'];
+    r_json = json.decode((await response.transform(utf8.decoder).join()));
   } finally {
     client.close();
   }
 
-  return newToken;
+  return r_json;
 }
