@@ -130,11 +130,12 @@ class _TokenPageState extends State<TokenPage> {
     final clientID = utils.RetrieveFromINI("CLIENT_ID");
     final clientSecret = utils.RetrieveFromINI("CLIENT_SECRET");
 
-    String token = await api_trakt.retrieveToken(
-        clientID, clientSecret, pinController.text);
+    final response_json = await api_trakt.retrieveToken(
+        clientID, clientSecret, pinController.text, "authorization_code");
 
     // Figure out what to do with the token.
-    utils.WriteToINI("ACCESS_TOKEN", token);
+    utils.WriteToINI("ACCESS_TOKEN", response_json['access_token']);
+    utils.WriteToINI("REFRESH_TOKEN", response_json['refresh_token']);
 
     Navigator.push(
         context,
