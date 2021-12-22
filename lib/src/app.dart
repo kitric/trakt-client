@@ -39,6 +39,10 @@ class TraktClient extends StatelessWidget {
   }
 }
 
+///
+/// Checks whether the user needs to go through the authentication process or not
+/// if not, access_token and refresh_token are refreshed.
+///
 Widget? AuthIfNeeded() {
   Widget? page;
 
@@ -48,9 +52,7 @@ Widget? AuthIfNeeded() {
     // Also refreshes token.
     page = const HomePage(title: "Trakt Client - Home Page");
 
-    print("Old access_token: ${utils.RetrieveFromINI('ACCESS_TOKEN')}");
-
-    // Not sure if this works LMAO
+    // After retrieving the access_token and refresh_token, write them to the .ini file.
     api_trakt
         .refreshToken(
             utils.RetrieveFromINI("CLIENT_ID"),
@@ -60,8 +62,6 @@ Widget? AuthIfNeeded() {
               utils.WriteToINI("ACCESS_TOKEN", value['access_token']),
               utils.WriteToINI("REFRESH_TOKEN", value['refresh_token'])
             });
-
-    print("New access_token: ${utils.RetrieveFromINI('ACCESS_TOKEN')}");
   }
 
   return page;
