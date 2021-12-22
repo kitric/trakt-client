@@ -6,13 +6,12 @@ This file contains useful methods that interact with the trakt api.
 
 // HTTP requests.
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:io';
 
-/* Redirects the user to the authentication page.
- The user must, then, login to their account and proceed with
- the authentication process.*/
+/// Redirects the user to the authentication page.
+/// The user must, then, login to their account and proceed with
+/// the authentication process.
 void redirect_user(String clientID) async {
   final url =
       "https://api.trakt.tv/oauth/authorize?response_type=code&client_id=$clientID&redirect_uri=urn:ietf:wg:oauth:2.0:oob&state=%20";
@@ -22,9 +21,9 @@ void redirect_user(String clientID) async {
   }
 }
 
-/* 
-Retrieves access_token and refresh_token from the respective trakt api endpoint.
-*/
+///
+/// Retrieves access_token and refresh_token from the respective trakt api endpoint.
+///
 Future<String> retrieveToken(
     String clientID, String clientSecret, String pin) async {
   final url =
@@ -49,6 +48,9 @@ Future<String> retrieveToken(
   return access_token;
 }
 
+///
+/// Returns a new token, calling the respective api endpoint using refresh_token.
+///
 Future<String> refreshToken(String accessToken, String clientID,
     String clientSecret, String refreshToken) async {
   final url =
