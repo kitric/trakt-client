@@ -4,6 +4,8 @@
 This file contains useful methods that interact with the trakt api.
 */
 
+//TODO: MaKe the code less repetitive.
+
 // HTTP requests.
 import 'dart:convert';
 import 'package:url_launcher/url_launcher.dart';
