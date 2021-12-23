@@ -11,9 +11,17 @@ import 'dart:convert';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:io';
 
+///
+/// Contains useful info about the user, such as their slug.
+///
+abstract class TraktUserInfo {
+  static String userSlug = "";
+}
+
 /// Redirects the user to the authentication page.
 /// The user must, then, login to their account and proceed with
 /// the authentication process.
+///
 void redirect_user(String clientID) async {
   final url =
       "https://api.trakt.tv/oauth/authorize?response_type=code&client_id=$clientID&redirect_uri=urn:ietf:wg:oauth:2.0:oob&state=%20";
@@ -74,4 +82,30 @@ Future<dynamic> refreshToken(
   }
 
   return r_json;
+}
+
+/// THIS METHOD SHOULD ONLY BE CALLED ONCE.
+/// Sets the TraktUserInfo.userSlug variable.
+Future<void> setUserSlug(String accessToken, String clientID) async {
+  const url = "https://api.trakt.tv/users/settings";
+  var client = HttpClient();
+
+  try {
+    HttpClientRequest request = await client.getUrl(Uri.parse(url));
+
+    // Adds necessary headers.
+    request.headers.add('Content-Type', 'application/json');
+    request.headers.add('Authorization', 'Bearer $accessToken');
+    request.headers.add('trakt-api-key', clientID);
+    request.headers.add('trakt-api-version', 2);
+
+    var response = await request.close();
+
+    // Converts the response into a json object that can be used to retrieve user_slug.
+    final r_json = json.decode((await response.transform(utf8.decoder).join()));
+    final userSlug = r_json['user']['ids']['slug'];
+    TraktUserInfo.userSlug = userSlug;
+  } finally {
+    client.close();
+  }
 }

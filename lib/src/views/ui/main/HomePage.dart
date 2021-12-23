@@ -1,6 +1,8 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:trakt_client/src/business_logic/models/api_services/trakt_api.dart'
+    as trakt_api;
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key, required this.title}) : super(key: key);
@@ -49,10 +51,10 @@ class _HomePageState extends State<HomePage> {
           // axis because Columns are vertical (the cross axis would be
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[
+          children: <Widget>[
             Text(
-              "HOME PAGE!",
-              style: TextStyle(
+              "Hello, ${trakt_api.TraktUserInfo.userSlug}",
+              style: const TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
                   fontFamily: "Century Gothic"),
