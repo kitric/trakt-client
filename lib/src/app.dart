@@ -46,7 +46,10 @@ class TraktClient extends StatelessWidget {
 Widget? AuthIfNeeded() {
   Widget? page;
 
-  if (utils.RetrieveFromINI("ACCESS_TOKEN") == "") {
+  String accessToken = utils.RetrieveFromINI("ACCESS_TOKEN");
+  String clientID = utils.RetrieveFromINI("CLIENT_ID");
+
+  if (accessToken == "") {
     page = const AuthPage(title: "Trakt Client - Authentication");
   } else {
     // Also refreshes token.
@@ -55,14 +58,22 @@ Widget? AuthIfNeeded() {
     // After retrieving the access_token and refresh_token, write them to the .ini file.
     api_trakt
         .refreshToken(
-            utils.RetrieveFromINI("CLIENT_ID"),
+            clientID,
             utils.RetrieveFromINI("CLIENT_SECRET"),
             utils.RetrieveFromINI("REFRESH_TOKEN"))
         .then((value) => {
-              utils.WriteToINI("ACCESS_TOKEN", value['access_token']),
+              accessToken = value['access_token'],
+              utils.WriteToINI("ACCESS_TOKEN", accessToken),
               utils.WriteToINI("REFRESH_TOKEN", value['refresh_token'])
             });
   }
+
+  // Retreives the users information
+  api_trakt.retrieveUserInfo(accessToken, clientID);
+
+  print("1." + api_trakt.TraktUserInfo.userSlug);
+  print("1." + api_trakt.TraktUserInfo.userAbout);
+  print("1." + api_trakt.TraktUserInfo.userAvatar);
 
   return page;
 }
