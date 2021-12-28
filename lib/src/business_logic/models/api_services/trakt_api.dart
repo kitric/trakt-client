@@ -87,8 +87,8 @@ Future<dynamic> refreshToken(
 }
 
 /// THIS METHOD SHOULD ONLY BE CALLED ONCE.
-/// Sets the TraktUserInfo.userSlug variable.
-Future<void> retrieveUserInfo(String accessToken, String clientID) async {
+/// Retrieves useful information about the user from the trakt API.
+Future retrieveUserInfo(String accessToken, String clientID) async {
   const url = "https://api.trakt.tv/users/settings";
   var client = HttpClient();
 
