@@ -16,6 +16,8 @@ import 'dart:io';
 ///
 abstract class TraktUserInfo {
   static String userSlug = "";
+  static String userAbout = "";
+  static String userAvatar = "";
 }
 
 /// Redirects the user to the authentication page.
@@ -27,7 +29,7 @@ void redirect_user(String clientID) async {
       "https://api.trakt.tv/oauth/authorize?response_type=code&client_id=$clientID&redirect_uri=urn:ietf:wg:oauth:2.0:oob&state=%20";
 
   if (!await launch(url)) {
-    throw "Something went wrong lol.";
+    throw "Something went wrong.";
   }
 }
 
@@ -86,7 +88,7 @@ Future<dynamic> refreshToken(
 
 /// THIS METHOD SHOULD ONLY BE CALLED ONCE.
 /// Sets the TraktUserInfo.userSlug variable.
-Future<void> setUserSlug(String accessToken, String clientID) async {
+Future<void> retrieveUserInfo(String accessToken, String clientID) async {
   const url = "https://api.trakt.tv/users/settings";
   var client = HttpClient();
 
@@ -103,8 +105,12 @@ Future<void> setUserSlug(String accessToken, String clientID) async {
 
     // Converts the response into a json object that can be used to retrieve user_slug.
     final r_json = json.decode((await response.transform(utf8.decoder).join()));
+    final userAbout = r_json['user']['about'];
     final userSlug = r_json['user']['ids']['slug'];
+    final userAvatar = r_json['user']['images']['avatar']['full'];
     TraktUserInfo.userSlug = userSlug;
+    TraktUserInfo.userAbout = userAbout;
+    TraktUserInfo.userAvatar = userAvatar;
   } finally {
     client.close();
   }

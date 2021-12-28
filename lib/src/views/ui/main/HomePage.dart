@@ -52,13 +52,68 @@ class _HomePageState extends State<HomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Container(
+              margin: const EdgeInsets.only(top: 15, bottom: 15),
+              /*
+              padding: const EdgeInsets.only(
+                left: 50,
+                right: 50,
+              ),*/
+              height: 100.0,
+              width: 100.0,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(50),
+                image: DecorationImage(
+                  image: Image.network(trakt_api.TraktUserInfo.userAvatar).image,
+                  fit: BoxFit.cover
+                ),
+                border: Border.all(color: const Color.fromARGB(255, 237, 28, 36), width: 5)
+              ),
+            ),
             Text(
-              "Hello, ${trakt_api.TraktUserInfo.userSlug}",
+              trakt_api.TraktUserInfo.userSlug,
               style: const TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
                   fontFamily: "Century Gothic"),
             ),
+            Container(
+              margin: const EdgeInsets.only(top: 15, bottom: 15),
+              padding: const EdgeInsets.only(
+                left: 350,
+                right: 350,
+              ),
+              child: Column(
+                children: <Widget>[
+                  Text(
+                    trakt_api.TraktUserInfo.userAbout,
+                    style: const TextStyle(
+                      fontSize: 15,
+                      fontFamily: "Century Gothic",
+                    ),
+                    textAlign: TextAlign.center)
+                ],
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.only(top: 15, bottom: 15),
+              padding: const EdgeInsets.only(
+                left: 350,
+                right: 350,
+              ),
+              child: Column(
+                children: const <Widget>[
+                  Text(
+                    "TODO: Add a function to get all the items (movies/shows) to load onto the profile page. We can have a separate page for \"Discover\"",
+                    style: TextStyle(
+                      fontSize: 10,
+                      fontFamily: "Century Gothic",
+                      color: Colors.grey
+                    ),
+                    textAlign: TextAlign.center)
+                ],
+              ),
+            )
           ],
         ),
       ),

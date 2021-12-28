@@ -138,7 +138,7 @@ class _TokenPageState extends State<TokenPage> {
     utils.WriteToINI("REFRESH_TOKEN", response_json['refresh_token']);
 
     // Retrieves user's info from trakt.
-    await api_trakt.setUserSlug(response_json['access_token'], clientID);
+    await api_trakt.retrieveUserInfo(response_json['access_token'], clientID);
 
     Navigator.push(
         context,
