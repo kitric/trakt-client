@@ -54,7 +54,27 @@ class _LoadingScreenState extends State<LoadingScreen> {
           // axis because Columns are vertical (the cross axis would be
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[Text("Loading....")],
+          children: <Widget>[
+            Container(
+              margin: const EdgeInsets.only(top: 15, bottom: 15),
+              padding: const EdgeInsets.only(
+                left: 50,
+                right: 50,
+              ),
+              child: Column(
+                children: <Widget>[
+                  Image(
+                    image: Image.network(
+                            "https://res.cloudinary.com/crxssed/image/upload/v1640793463/loading.gif")
+                        .image,
+                    width: 100,
+                    height: 100,
+                  ),
+                ],
+              ),
+            ),
+            const Text("Loading....")
+            ],
         ),
       ),
     );

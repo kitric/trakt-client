@@ -10,6 +10,7 @@ This file contains useful methods that interact with the trakt api.
 import 'dart:convert';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:io';
+import 'package:shared_preferences/shared_preferences.dart';
 
 ///
 /// Contains useful info about the user, such as their slug.
@@ -111,6 +112,10 @@ Future retrieveUserInfo(String accessToken, String clientID) async {
     TraktUserInfo.userSlug = userSlug;
     TraktUserInfo.userAbout = userAbout;
     TraktUserInfo.userAvatar = userAvatar;
+    String jsonString = "{\"userSlug\": \"$userSlug\", \"userAbout\": \"$userAbout\", \"userAvatar\": \"$userAvatar\"}";
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.setString('user_data', jsonString);
+    print(pref.getString('user_data'));
   } finally {
     client.close();
   }
