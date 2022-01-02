@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:trakt_client/src/business_logic/models/api_services/trakt_api.dart'
     as trakt_api;
 
+import 'package:trakt_client/src/views/ui/user/ProfilePage.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key, required this.title}) : super(key: key);
 
@@ -62,13 +64,13 @@ class _HomePageState extends State<HomePage> {
               height: 100.0,
               width: 100.0,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(50),
-                image: DecorationImage(
-                  image: Image.network(trakt_api.TraktUserInfo.userAvatar).image,
-                  fit: BoxFit.cover
-                ),
-                border: Border.all(color: const Color.fromARGB(255, 237, 28, 36), width: 5)
-              ),
+                  borderRadius: BorderRadius.circular(50),
+                  image: DecorationImage(
+                      image: Image.network(trakt_api.TraktUserInfo.userAvatar)
+                          .image,
+                      fit: BoxFit.cover),
+                  border: Border.all(
+                      color: const Color.fromARGB(255, 237, 28, 36), width: 5)),
             ),
             Text(
               trakt_api.TraktUserInfo.userSlug,
@@ -85,13 +87,12 @@ class _HomePageState extends State<HomePage> {
               ),
               child: Column(
                 children: <Widget>[
-                  Text(
-                    trakt_api.TraktUserInfo.userAbout,
-                    style: const TextStyle(
-                      fontSize: 15,
-                      fontFamily: "Century Gothic",
-                    ),
-                    textAlign: TextAlign.center)
+                  Text(trakt_api.TraktUserInfo.userAbout,
+                      style: const TextStyle(
+                        fontSize: 15,
+                        fontFamily: "Century Gothic",
+                      ),
+                      textAlign: TextAlign.center)
                 ],
               ),
             ),
@@ -102,15 +103,28 @@ class _HomePageState extends State<HomePage> {
                 right: 350,
               ),
               child: Column(
-                children: const <Widget>[
-                  Text(
-                    "TODO: Add a function to get all the items (movies/shows) to load onto the profile page. We can have a separate page for \"Discover\"",
-                    style: TextStyle(
-                      fontSize: 10,
-                      fontFamily: "Century Gothic",
-                      color: Colors.grey
-                    ),
-                    textAlign: TextAlign.center)
+                children: <Widget>[
+                  const Text(
+                      "TODO: Add a function to get all the items (movies/shows) to load onto the profile page. We can have a separate page for \"Discover\"",
+                      style: TextStyle(
+                          fontSize: 10,
+                          fontFamily: "Century Gothic",
+                          color: Colors.grey),
+                      textAlign: TextAlign.center),
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    Container(
+                        margin: const EdgeInsets.only(top: 15, left: 5),
+                        child: OutlinedButton(
+                          child: const Text("Open profile page."),
+                          onPressed: () => {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const ProfilePage(title: "Sus.")))
+                          },
+                        ))
+                  ])
                 ],
               ),
             )

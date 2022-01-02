@@ -1,6 +1,9 @@
 // ignore_for_file: file_names
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:trakt_client/src/business_logic/models/api_services/trakt_api.dart'
     as trakt_api;
 import 'package:trakt_client/src/views/ui/Authentication/AuthPage.dart';
@@ -29,30 +32,16 @@ class LoadingScreen extends StatefulWidget {
 class _LoadingScreenState extends State<LoadingScreen> {
   @override
   Widget build(BuildContext context) {
-    AuthIfNeeded().then((value) => {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => value))
+    SharedPreferences.getInstance().then((value) => {
+          AuthIfNeeded().then((value) => {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => value))
+              }),
         });
 
     return Scaffold(
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itselfR and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
@@ -74,7 +63,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
               ),
             ),
             const Text("Loading....")
-            ],
+          ],
         ),
       ),
     );
@@ -95,12 +84,30 @@ class _LoadingScreenState extends State<LoadingScreen> {
     } else {
       // Also refreshes token.
       await refreshToken(clientID, accessToken);
-
       accessToken = utils.RetrieveFromINI("ACCESS_TOKEN");
       clientID = utils.RetrieveFromINI("CLIENT_ID");
-      await trakt_api.retrieveUserInfo(accessToken, clientID);
+
+      SharedPreferences pref = await SharedPreferences.getInstance();
+
+      // Retrieves the cached user data.
+      // If it doesn't exist, retrieve it from the trakt api.
+      String? userData = pref.getString("user_data");
+      if (userData == null) {
+        await trakt_api.retrieveUserInfo(accessToken, clientID);
+
+        // TODO: Implement daily check function.
+      } else {
+        dynamic json = jsonDecode(userData);
+
+        trakt_api.TraktUserInfo.userAbout = json["userAbout"];
+        trakt_api.TraktUserInfo.userAvatar = json["userAvatar"];
+        trakt_api.TraktUserInfo.userSlug = json["userSlug"];
+      }
 
       page = const HomePage(title: "Trakt Client - Home Page");
+
+      // WORKS.
+      var test = await trakt_api.retrieveWatched("shows", clientID);
     }
 
     return page;
