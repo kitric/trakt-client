@@ -4,7 +4,7 @@
 This file contains useful methods that interact with the trakt api.
 */
 
-//TODO: MaKe the code less repetitive.
+//TODO: Make the code less repetitive.
 
 // HTTP requests.
 import 'dart:convert';
@@ -112,11 +112,33 @@ Future retrieveUserInfo(String accessToken, String clientID) async {
     TraktUserInfo.userSlug = userSlug;
     TraktUserInfo.userAbout = userAbout;
     TraktUserInfo.userAvatar = userAvatar;
-    String jsonString = "{\"userSlug\": \"$userSlug\", \"userAbout\": \"$userAbout\", \"userAvatar\": \"$userAvatar\"}";
+    String jsonString =
+        "{\"userSlug\": \"$userSlug\", \"userAbout\": \"$userAbout\", \"userAvatar\": \"$userAvatar\"}";
     SharedPreferences pref = await SharedPreferences.getInstance();
     pref.setString('user_data', jsonString);
-    print(pref.getString('user_data'));
   } finally {
     client.close();
   }
+}
+
+Future<dynamic> retrieveWatched(String type, String clientID) async {
+  var url =
+      "https://api.trakt.tv/users/${TraktUserInfo.userSlug}/watched/$type";
+
+  var client = HttpClient();
+  dynamic r_json;
+
+  try {
+    HttpClientRequest req = await client.getUrl(Uri.parse(url));
+    req.headers.add('Content-Type', 'application/json');
+    req.headers.add('trakt-api-version', 2);
+    req.headers.add('trakt-api-key', clientID);
+
+    var response = await req.close();
+    r_json = jsonDecode((await response.transform(utf8.decoder).join()));
+  } finally {
+    client.close();
+  }
+
+  return r_json;
 }
